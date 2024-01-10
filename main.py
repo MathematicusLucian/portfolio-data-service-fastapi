@@ -22,6 +22,13 @@ class Skill_Category(BaseModel):
 # Skills #
 #--------#
 
+## There is a blockgraph "Badges" block which will utilise the following endpoints,
+# e.g. to display the Skills.
+# When the blockgraph is created (on load of a page that presents the Skills block), 
+# it will fetch the skills and tags.
+# It will also include the other Skills endpoints (as strings in the JSON response), 
+# so that the block can call them
+
 # Fetch the Skills
 # api/items/[x]
 @app.get("/get_skills_items/{id_site}")
@@ -58,6 +65,13 @@ def add_skills_category(id_site: int, skills_category: Skill_Category):
 # Projects #
 #----------#
 
+## There are blockgraph "Card Grid", and "Card Carousel" blocks which will utilise 
+# the following endpoints, e.g. to display the Projects.
+# When the blockgraph is created (on projects page load), 
+# it will fetch the projects cards and categories
+# It will also include the other Skills endpoints (as strings in the JSON response), 
+# so that the block can call them
+
 # Fetch the Projects
 @app.get("/get_projects/{id_site}")
 def get_projects(id_site: int):
@@ -91,6 +105,14 @@ def add_projects_category(id_site: int, projects_category: Union[str, None] = No
 #-----------#
 # BlogPosts #
 #-----------#
+
+## There are blockgraph "Blog", and "BlogCarousel" blocks which will utilise 
+# the following endpoints, # e.g. to display the blog, and also likewise the research 
+# articles, and the courses.
+# When the blockgraph is created (on Nlog page load, or Blog preview carousel load), 
+# it will fetch the blog posts and categories
+# It will also include the other Skills endpoints (as strings in the JSON response), 
+# so that the block can call them
 
 # Fetch the Blog Posts
 @app.get("/get_blog_posts/{id_site}")
