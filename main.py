@@ -1,22 +1,68 @@
 from typing import Union
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
+import json
+
+class Site_Details(BaseModel):
+    id_site: int
+
+class Skill_Details(BaseModel):
+    id_skill: int
+    skill_name: str
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "id_skill": 1,
+                    "skill_name": "ABC"
+                }
+            ]
+        }
+    }
+
+class Skill_Category_Details(BaseModel):
+    id_skills_category: int
+    skills_category_name: str
+
+class Skills_Data(BaseModel):
+    name: str
+    tag: list
+
+class Skills_Category_Data(BaseModel):
+    name: str
+
+class Projects_Data(BaseModel):
+    project_url: str
+    img_src: str
+    title: str
+    content: str
+
+class Projects_Category_Data(BaseModel):
+    name: str
+
+class Blog_Post_Data(BaseModel):
+    name: str
+    tag: list
+
+class Blog_Post_Category_Data(BaseModel):
+    name: str
+
+def read_root():
+    return {"data-pipeline-service": "api"}
 
 # Will replace with mongo
-from "./projects.json" import data_projects
-from "./skills.json" import data_skills
+def getData(file_name: str):
+    data_file = open(file_name)  
+    return json.load(data_file)
+
+data_projects=getData("projects.json")
+data_skills=getData("skills.json")
+data_skills_tags=getData("skills_tags.json")
 
 app = FastAPI()
-
 @app.get("/")
-def read_root():
-    return {"testing": "api"}
-
-class Skill(BaseModel):
-    name: str
-
-class Skill_Category(BaseModel):
-    name: str
 
 #--------#
 # Skills #
@@ -31,34 +77,43 @@ class Skill_Category(BaseModel):
 
 # Fetch the Skills
 # api/items/[x]
-@app.get("/get_skills_items/{id_site}")
-def get_skills_items(id_site: int):
-    return data_skills
+@app.get(
+    "/get_skills_items/{id_site}",
+    # responses={
+    #     404: {"model": Site_Details, "description": "The item was not found"}
+    # }
+)
+async def get_skills_items(id_site: int) -> list[Skills_Data]:
+    if data_skills:
+        return data_skills
+    return JSONResponse(status_code=404, content={"message": "Item not found"})
 
 # Update a Skill
 @app.post("/update_skill/{id_site}")
-def update_skill(id_site: int, id_skill: int):
+def update_skill(id_site: int, body: Skill_Details | dict = dict()):
     return {}
 
 # Add a Skill
 # api/items/[x]?skill=[y]
 @app.put("/add_skills_item/{id_site}")
-def add_skills_item(id_site: int, skill: Skill):
+def add_skills_item(id_site: int, skill_data: Skill_Details):
     return {}
 
 # Fetch Categories of Skills
 @app.get("/get_skills_categories/{id_site}")
-def get_skills_categories(id_site: int):
-    return {}
+async def get_skills_categories(id_site: int) -> list[Skills_Category_Data]:
+    if data_skills_tags:
+        return data_skills_tags
+    return JSONResponse(status_code=404, content={"message": "Item not found"})
 
 # Update a Category of Skills
 @app.post("/update_skills_category/{id_site}")
-def update_skills_category(id_site: int, id_skills_category: int):
+def update_skills_category(id_site: int, skill_category_data: Skill_Category_Details):
     return {}
 
 # Add a Category of Skills
 @app.put("/add_skills_category/{id_site}")
-def add_skills_category(id_site: int, skills_category: Skill_Category):
+def add_skills_category(id_site: int, skill_category_data: Skill_Category_Details):
     return {}
 
 #----------#
@@ -74,8 +129,10 @@ def add_skills_category(id_site: int, skills_category: Skill_Category):
 
 # Fetch the Projects
 @app.get("/get_projects/{id_site}")
-def get_projects(id_site: int):
-    return data_projects
+async def get_projects(id_site: int) -> list[Projects_Data]:
+    if data_projects:
+        return data_projects
+    return JSONResponse(status_code=404, content={"message": "Item not found"})
 
 # Update a Project
 @app.post("/update_project/{id_site}")
@@ -89,7 +146,7 @@ def add_project(id_site: int, project: Union[str, None] = None):
 
 # Fetch the Categories of Projects
 @app.get("/get_projects_categories/{id_site}")
-def get_projects_categories(id_site: int):
+async def get_projects_categories(id_site: int) -> list[Projects_Category_Data]:
     return {}
 
 # Update a Category of Projects
@@ -116,7 +173,7 @@ def add_projects_category(id_site: int, projects_category: Union[str, None] = No
 
 # Fetch the Blog Posts
 @app.get("/get_blog_posts/{id_site}")
-def get_blog_posts(id_site: int):
+async def get_blog_posts(id_site: int) -> list[Blog_Post_Data]:
     return {}
 
 # Update a Blog Post
@@ -131,7 +188,7 @@ def add_blog_post(id_site: int, blog_post: Union[str, None] = None):
 
 # Fetch the Categories of Blog Posts
 @app.get("/get_blog_categories/{id_site}")
-def get_blog_categories(id_site: int):
+async def get_blog_categories(id_site: int) -> list[Blog_Post_Category_Data]:
     return {}
 
 # Update a Category of the Blog Posts
