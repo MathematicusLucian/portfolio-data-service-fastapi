@@ -79,7 +79,7 @@ app = FastAPI()
 
 # Fetch the Main Menu Items
 @app.get(
-    "/get_menu/main/{id_site}"
+    "/get_menu_main/{id_site}"
 )
 async def get_main_menu(id_site: int) -> list[Menu_Data]:
     if data_main_menu:
@@ -88,9 +88,9 @@ async def get_main_menu(id_site: int) -> list[Menu_Data]:
 
 # Fetch the Links Menu Items
 @app.get(
-    "/get_menu/links/{id_site}"
+    "/get_menu_links/{id_site}"
 )
-async def get_menu_links(id_site: int) -> list[Menu_Data]:
+async def get_menu_links(id_site: int): # -> list[Menu_Data]:
     if data_menu_links:
         return data_menu_links
     return JSONResponse(status_code=404, content={"message": "Item not found"})
