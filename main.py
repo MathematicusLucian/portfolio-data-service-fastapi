@@ -4,6 +4,13 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import json
 
+class Menu_Data(BaseModel):
+    title: str
+    icon: str
+    linkPath: str
+    target: str 
+    active: bool
+
 class Site_Details(BaseModel):
     id_site: int
 
@@ -60,9 +67,35 @@ def getData(file_name: str):
 data_projects=getData("projects.json")
 data_skills=getData("skills.json")
 data_skills_tags=getData("skills_tags.json")
+data_main_menu=getData("menu_main.json")
+data_main_links=getData("menu_links.json")
 
 app = FastAPI()
 @app.get("/")
+
+#--------#
+# Menus #
+#--------#
+
+# Fetch the Main Menu Items
+# api/items/[x]
+@app.get(
+    "/get_menu/main/{id_site}"
+)
+async def get_main_menu(id_site: int) -> list[Menu_Data]:
+    if data_main_menu:
+        return data_main_menu
+    return JSONResponse(status_code=404, content={"message": "Item not found"})
+
+# Fetch the Main Menu Items
+# api/items/[x]
+@app.get(
+    "/get_menu/main/{id_site}"
+)
+async def get_main_links(id_site: int) -> list[Menu_Data]:
+    if data_main_links:
+        return data_main_links
+    return JSONResponse(status_code=404, content={"message": "Item not found"})
 
 #--------#
 # Skills #
