@@ -68,7 +68,7 @@ data_projects=getData("projects.json")
 data_skills=getData("skills.json")
 data_skills_tags=getData("skills_tags.json")
 data_main_menu=getData("menu_main.json")
-data_main_links=getData("menu_links.json")
+data_menu_links=getData("menu_links.json")
 
 app = FastAPI()
 @app.get("/")
@@ -78,7 +78,6 @@ app = FastAPI()
 #--------#
 
 # Fetch the Main Menu Items
-# api/items/[x]
 @app.get(
     "/get_menu/main/{id_site}"
 )
@@ -87,14 +86,13 @@ async def get_main_menu(id_site: int) -> list[Menu_Data]:
         return data_main_menu
     return JSONResponse(status_code=404, content={"message": "Item not found"})
 
-# Fetch the Main Menu Items
-# api/items/[x]
+# Fetch the Links Menu Items
 @app.get(
-    "/get_menu/main/{id_site}"
+    "/get_menu/links/{id_site}"
 )
-async def get_main_links(id_site: int) -> list[Menu_Data]:
-    if data_main_links:
-        return data_main_links
+async def get_menu_links(id_site: int) -> list[Menu_Data]:
+    if data_menu_links:
+        return data_menu_links
     return JSONResponse(status_code=404, content={"message": "Item not found"})
 
 #--------#
