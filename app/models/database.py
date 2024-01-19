@@ -15,7 +15,7 @@ class OID(str):
             raise TypeError('ObjectId invalid')
         return str(v)
 
-class BaseDBModel(BaseDBModel):
+class BaseDBModel(BaseModel):
     class Config:
         from_attributes = True
         populate_by_name = True

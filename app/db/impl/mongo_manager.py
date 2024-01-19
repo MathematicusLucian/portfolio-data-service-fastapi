@@ -1,7 +1,11 @@
 import logging
+from typing import List
+from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
+# from decouple import config
 
 from app.db.interfaces.database_manager import DatabaseManager
+from app.models.blog import Blog_Post_Data
 
 class MongoManager(DatabaseManager):
     client: AsyncIOMotorClient = None
@@ -22,3 +26,7 @@ class MongoManager(DatabaseManager):
 
     async def close_database_connection(self):
         self.client.close()
+
+    async def get_posts(self) -> List[Blog_Post_Data]:
+        posts_data = self.database.posts.find()
+        return { "test" }
