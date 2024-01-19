@@ -1,50 +1,71 @@
-# Launch FastAPI Microservice on Local Machine
-uvicorn main:app --host 0.0.0.0 --port 80
+# Simple example with FastAPI + MongoDB    
+
+>*A lightweight **Python: 3.12** microservice utilising FastAPI, Asyncio, Pydantic, and Motor to fetch data from a Mongo instance to populate my portfolio Angular website.*
+
+## Features 
+- [FastAPI](http://fastapi.tiangolo.com), and **ObjectID**
+- **Dependency Injection** features in the database implementation
+- Use of Env file to store secrets (parsed by Pydantic)  
+- [MongoDB](https://www.mongodb.com) 
+- Asynchronous programming (**async**), i.e. Asyncio, for Mongo DB calls
+- Dependency manager: [Poetry](https://python-poetry.org) 
+- Docker container 
+
+# Launch FastAPI Microservice
+## Docker
+``sudo docker-compose up``
+
+## Local Machine
+``uvicorn main:app --host 0.0.0.0 --port 80``
+``uvicorn main:portfolio_data_service --host 0.0.0.0 --port 80``
+
+# Set Python in Path
+``python3 -m site --user-base``
+``nano ~/.bash_profile``
+``xport PATH="/path/to/python:$PATH"``
+Ctrl + X -> y -> Enter
+
+# python-dotenv
+To open .env files
 
 # Poetry
-poetry init
-poetry install --no-root (To avoid installing development dependencies, use --no-dev argument)
+``poetry init``
+``poetry install --no-root`` (To avoid installing development dependencies, use --no-dev argument)
+
+# PyProject (alternate to SetupTools)
+## Installing base depdendences
+``pip install -e .`` (e=editable: reference rather than copy)
+## Installing dev dependencies
+``pip install -e .[dev]``
+## create EXE file
+``renderhtml.exe .\input.md``
 
 # virtualenv (has move features than venv)
 ## install 
-pip install virtualenv
-python3> -m venv portfolio-env
+``pip install virtualenv``
+``python3> -m venv portfolio-env``
 ## Launch
 env_setup.bash
 ## Launch: Linux
-source portfolio_env/bin/activate
+````source portfolio_env/bin/activate``
 ## Launch: Windows
-cd portfolio-env
-Scripts\activate
-## Check virtualenv working
-pip list
+``cd portfolio-env``
+``Scripts\activate``
+## Check virtualenv working / which dependencies are installed
+``pip list``
 ## VSCode Setup
 Cmd/Ctrl-Shift-P -> Select Interpreter -> portfolio-service -> env
 ## Generate requirements file
-pip freeze > requirements.txt
+``pip freeze > requirements.txt``
 ## Install dependencies (from requirements file)
-(portfolio_env)$ pip install -r requirements.txt
+``(portfolio_env)$ pip install -r requirements.txt``
 ## Deactivate virtualenv
-(portfolio_env)$ deactivate
+``(portfolio_env)$ deactivate``
+
+# PipeEnv
+``pip3 install --user pipenv``
+## pyvenv.cfg
+``include-system-site-packages = true``
+Then, do ``pip install``
 
 Nb. Scripts to be installed in envs are not be written with an expectation that the environment to be activated, and thus, shebang lines contain the absolute paths to their environment’s interpreters.
-
-Package           Version
------------------ -------
-annotated-types   0.6.0
-anyio             4.2.0
-distlib           0.3.8
-exceptiongroup    1.2.0
-fastapi           0.109.0
-filelock          3.13.1
-idna              3.6
-pip               23.3.2
-platformdirs      4.1.0
-pydantic          2.5.3
-pydantic_core     2.14.6
-setuptools        69.0.2
-sniffio           1.3.0
-starlette         0.35.1
-typing_extensions 4.9.0
-virtualenv        20.25.0
-wheel             0.42.0
