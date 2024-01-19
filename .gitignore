@@ -1,3 +1,6 @@
+# Local machine
+ *.DS_Store
+
 #IDE 
 .vscode
 
@@ -56,8 +59,11 @@ cover/
 *.mo
 *.pot
 
-# Django stuff:
+# logs
+/temp
 *.log
+
+# Django stuff:
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
@@ -103,11 +109,9 @@ celerybeat.pid
 # Environments
 .env
 .venv
-env/bin
-env/lib
+env/
 venv/
-ENV/bin
-ENV/lib
+ENV/
 env.bak/
 venv.bak/
 

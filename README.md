@@ -16,8 +16,7 @@
 ``sudo docker-compose up``
 
 ## Local Machine
-``uvicorn main:app --host 0.0.0.0 --port 80``
-``uvicorn main:portfolio_data_service --host 0.0.0.0 --port 80``
+`` uvicorn app.main:app --reload``
 
 # Set Python in Path
 ``python3 -m site --user-base``
