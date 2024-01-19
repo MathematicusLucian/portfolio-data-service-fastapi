@@ -6,6 +6,7 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
 from app.db.interfaces.database_manager import DatabaseManager
 from app.models.blog import Blog_Post_Data
+from app.utils.common_helper import validate_data_retrieved, format_data_to_list
 
 class MongoManager(DatabaseManager):
     client: AsyncIOMotorClient = None
@@ -29,4 +30,7 @@ class MongoManager(DatabaseManager):
 
     async def get_posts(self) -> List[Blog_Post_Data]:
         posts_data = self.database.posts.find()
-        return { "test" }
+        data_list = []   
+        if validate_data_retrieved(posts_data):
+            data_list = await format_data_to_list(posts_data) 
+            return data_list
