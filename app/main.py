@@ -1,8 +1,13 @@
+import uvicorn
 from typing import Union
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import json
+import logging
+
+from app.config.config import get_config
+from app.db import db
 
 class Menu_Data(BaseModel):
     title: str
@@ -70,7 +75,20 @@ data_skills_tags=getData("skills_tags.json")
 data_main_menu=getData("menu_main.json")
 data_menu_links=getData("menu_links.json")
 
-app = FastAPI()
+config = get_config()
+
+app = FastAPI(title=config.app_name)
+app.include_router(posts.router, prefix='/api')
+
+@app.on_event("startup")
+async def startup():
+    await db.connect_to_database(path=config.database_path, database=config.database_name)
+ 
+@app.on_event("shutdown")
+async def shutdown():
+    logging.info("Shutting down")
+    await db.close_database_connection()
+
 @app.get("/")
 
 #--------#
@@ -231,3 +249,6 @@ def update_blog_category(id_site: int, id_blog_category: int):
 @app.put("/add_blog_category/{id_site}")
 def add_blog_category(id_site: int, blog_category: Union[str, None] = None):
     return {}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
