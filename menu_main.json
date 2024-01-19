@@ -1,0 +1,58 @@
+[
+    {
+      "title": "Home",
+      "icon": null,
+      "target": null,
+      "linkPath": "/home/", 
+      "active": false
+    },
+    {
+      "title": "Blog",
+      "icon": null,
+      "target": null,
+      "linkPath": "/blog/", 
+      "active": false
+    },
+    {
+      "title": "CV/Resume",
+      "icon": null,
+      "target": null,
+      "linkPath": "/cv/", 
+      "active": false
+    },
+    {
+      "title": "Research Projects",
+      "icon": null,
+      "target": null,
+      "linkPath": "/research/", 
+      "active": false
+    },
+    {
+      "title": "Tags",
+      "icon": null,
+      "target": null,
+      "linkPath": "/tags/", 
+      "active": false
+    },
+    {
+      "title": "Codebases",
+      "icon": null,
+      "target": null,
+      "linkPath": "/projects/", 
+      "active": false
+    },
+    {
+      "title": "Courses",
+      "icon": null,
+      "target": null,
+      "linkPath": "/courses/", 
+      "active": false
+    },
+    {
+      "title": "Contact",
+      "icon": null,
+      "target": null,
+      "linkPath": "/contact/", 
+      "active": false
+    }
+]
