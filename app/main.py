@@ -78,7 +78,6 @@ data_menu_links=getData("menu_links.json")
 config = get_config()
 
 app = FastAPI(title=config.app_name)
-app.include_router(posts.router, prefix='/api')
 
 @app.on_event("startup")
 async def startup():
