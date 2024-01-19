@@ -2,78 +2,11 @@ import uvicorn
 from typing import Union
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
 import json
 import logging
 
 from app.config.config import get_config
 from app.db import db
-
-class Menu_Data(BaseModel):
-    title: str
-    icon: str
-    linkPath: str
-    target: str 
-    active: bool
-
-class Site_Details(BaseModel):
-    id_site: int
-
-class Skill_Details(BaseModel):
-    id_skill: int
-    skill_name: str
-
-    model_config = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "id_skill": 1,
-                    "skill_name": "ABC"
-                }
-            ]
-        }
-    }
-
-class Skill_Category_Details(BaseModel):
-    id_skills_category: int
-    skills_category_name: str
-
-class Skills_Data(BaseModel):
-    name: str
-    tag: list
-
-class Skills_Category_Data(BaseModel):
-    name: str
-
-class Projects_Data(BaseModel):
-    project_url: str
-    img_src: str
-    title: str
-    content: str
-
-class Projects_Category_Data(BaseModel):
-    name: str
-
-class Blog_Post_Data(BaseModel):
-    name: str
-    tag: list
-
-class Blog_Post_Category_Data(BaseModel):
-    name: str
-
-def read_root():
-    return {"data-pipeline-service": "api"}
-
-# Will replace with mongo
-def getData(file_name: str):
-    data_file = open(file_name)  
-    return json.load(data_file)
-
-data_projects=getData("projects.json")
-data_skills=getData("skills.json")
-data_skills_tags=getData("skills_tags.json")
-data_main_menu=getData("menu_main.json")
-data_menu_links=getData("menu_links.json")
 
 config = get_config()
 
