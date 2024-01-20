@@ -1,15 +1,18 @@
+#-------------
+# Main module
+#-------------
 import uvicorn
 from fastapi import FastAPI
 import logging
 
 from app.config.config import get_config
 from app.db import db
-from app.rest import blog
+from app.routers import blog
 
 config = get_config()
 
 app = FastAPI(title=config.app_name)
-app.include_router(blog.router, prefix='/api')
+app.include_router(blog.router_blog, prefix='/api')
 
 @app.on_event("startup")
 async def startup():
