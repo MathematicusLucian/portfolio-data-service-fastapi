@@ -30,11 +30,7 @@ class DatabaseManager(object):
         pass
 
     @abstractmethod
-    async def get_posts(self) -> List[Blog_Post_Data]:
-        pass
-
-    @abstractmethod
-    async def get_post(self, post_id: OID) -> Blog_Post_Data:
+    async def one_post(self, post_id: str) -> Blog_Post_Data:
         pass
 
     @abstractmethod

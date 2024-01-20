@@ -1,6 +1,6 @@
 from typing import Optional
 from bson import ObjectId
-from pydantic.main import BaseModel
+from pydantic.main import BaseModel, ConfigDict
 
 class OID(str):
     @classmethod
@@ -19,6 +19,7 @@ class BaseDBModel(BaseModel):
     class Config:
         from_attributes = True
         populate_by_name = True
+        arbitrary_types_allowed = True
 
         @classmethod
         def alias_generator(cls, string: str) -> str:

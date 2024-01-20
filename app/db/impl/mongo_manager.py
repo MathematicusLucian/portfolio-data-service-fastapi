@@ -7,7 +7,7 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 # from decouple import config
 
 from app.db.interfaces.database_manager import DatabaseManager
-from app.models.blog import Blog_Post_Data
+from app.models.blog import Blog_Post_Data, Blog_Request_One
 # from app.utils.common_helper import validate_data_retrieved, format_data_to_list
 
 class MongoManager(DatabaseManager):
@@ -31,7 +31,7 @@ class MongoManager(DatabaseManager):
         self.client.close()
 
     async def create_post(self, post: Blog_Post_Data):
-        await self.db.posts.insert_one(post.dict(exclude={'id'}))
+        await self.database.posts.insert_one(post.dict(exclude={'id'}))
 
     async def all_posts(self): # -> list[Blog_Post_Data]:
         data_list = [] 
@@ -43,18 +43,18 @@ class MongoManager(DatabaseManager):
             # data_list = await format_data_to_list(posts_data) 
             return data_list
 
-    async def get_post(self, post_id: OID) -> Blog_Post_Data:
+    async def one_post(self, post_id: str) -> Blog_Request_One: #e.g.: 65a8290874d04214abc99c6c
         if post_id:
             post_id = validate_object_id(post_id)
-            post_q = await self.db.posts.find_one({'_id': ObjectId(post_id)})
+            post_q = await self.database.posts.find_one({'_id': ObjectId(post_id)})
             if post_q:
-                return Blog_Post_Data(**post_q, id=post_q['_id'])
+                return Blog_Post_Data(**post_q, id=str(post_q['_id']))
 
     async def update_post(self, post_id: OID, post: Blog_Post_Data):
         if post_id & post:
-            await self.db.posts.update_one({'_id': ObjectId(post_id)},
+            await self.database.posts.update_one({'_id': ObjectId(post_id)},
                 {'$set': post.dict(exclude={'id'})})
 
     async def delete_post(self, post_id: OID):
         if post_id:
-            await self.db.posts.delete_one({'_id': ObjectId(post_id)})
+            await self.database.posts.delete_one({'_id': ObjectId(post_id)})

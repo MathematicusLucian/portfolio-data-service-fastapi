@@ -34,8 +34,8 @@ async def all_posts(db: DatabaseManager = Depends(get_database)): #list[Blog_Pos
     return posts
 
 @router_blog.get('/{id_post}')
-async def one_post(id_post: OID, db: DatabaseManager = Depends(get_database)):
-    post = await db.get_post(id_post=id_post)
+async def one_post(id_post: str, db: DatabaseManager = Depends(get_database)):
+    post = await db.one_post(id_post)
     return post
 
 # UPDATE

@@ -4,6 +4,9 @@ from pydantic.main import BaseModel
 
 from app.models.database import OID, BaseDBModel
 
+class Blog_Request_One(BaseDBModel):
+    id: any #ObjectId
+
 class Blog_Post_Data(BaseDBModel):
     id: str # Optional[OID]
     title: str
