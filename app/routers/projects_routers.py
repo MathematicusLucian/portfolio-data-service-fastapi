@@ -1,8 +1,15 @@
 from typing import Union
 import json
+from bson import ObjectId
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
+from app.models.database_models import OID
 from app.models.projects_models import Projects_Category_Data, Projects_Data
+from app.services.database_manager import DatabaseManagerInterface, get_database
+
+projects_router = APIRouter(prefix='/projects')
 
 #----------#
 # Projects #
@@ -15,34 +22,38 @@ from app.models.projects_models import Projects_Category_Data, Projects_Data
 # It will also include the other Skills endpoints (as strings in the JSON response), 
 # so that the block can call them
 
-# Fetch the Projects
-@app.get("/get_projects/{id_site}")
-async def get_projects(id_site: int) -> list[Projects_Data]:
-    if data_projects:
-        return data_projects
-    return JSONResponse(status_code=404, content={"message": "Item not found"})
+# # CREATE
 
-# Update a Project
-@app.post("/update_project/{id_site}")
-def update_project(id_site: int, id_project: int):
-    return {}
+# # READ
+@projects_router.get("/all")
+async def all_projects(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Projects_Data]:
+    projects = await database_manager_service.all('projects')
+    return projects
 
-# Add a Project
-@app.put("/add_project/{id_site}")
-def add_project(id_site: int, project: Union[str, None] = None):
-    return {}
+@projects_router.get('/read/{id_projects}')
+async def one_projects(id_projects: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+    projects_categories = await database_manager_service.post(id_projects, 'projects')
+    return projects_categories
 
-# Fetch the Categories of Projects
-@app.get("/get_projects_categories/{id_site}")
-async def get_projects_categories(id_site: int) -> list[Projects_Category_Data]:
-    return {}
+# # UPDATE
 
-# Update a Category of Projects
-@app.post("/update_projects_category/{id_site}")
-def update_projects_category(id_site: int, id_projects_category: int):
-    return {}
+# # DELETE
 
-# Add a Category of Projects
-@app.put("/add_projects_category/{id_site}")
-def add_projects_category(id_site: int, projects_category: Union[str, None] = None):
-    return {}
+# CATEGORIES #
+
+# # CREATE
+
+# # READ
+@projects_router.get("/all_projects")
+async def all_skills_categories(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Projects_Category_Data]:
+    categories = await database_manager_service.all('projects_categories')
+    return categories
+
+@projects_router.get('/read_projects/{id_skills_categories}')
+async def one_skill_category(id_projects: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+    category = await database_manager_service.post(id_projects, 'projects_categories')
+    return category
+
+# # UPDATE
+
+# # DELETE

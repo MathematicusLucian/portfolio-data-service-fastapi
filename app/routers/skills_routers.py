@@ -1,8 +1,16 @@
 from typing import Union
 import json
+from bson import ObjectId
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
+from app.models.database_models import OID
+from app.models.blog_models import Blog_Post_Category_Data, Blog_Post_Data
 from app.models.skills_models import Skill_Category_Details, Skill_Details, Skills_Category_Data, Skills_Data
+from app.services.database_manager import DatabaseManagerInterface, get_database
+
+skills_router = APIRouter(prefix='/skills')
 
 #--------#
 # Skills #
@@ -15,43 +23,38 @@ from app.models.skills_models import Skill_Category_Details, Skill_Details, Skil
 # It will also include the other Skills endpoints (as strings in the JSON response), 
 # so that the block can call them
 
-# Fetch the Skills
-# api/items/[x]
-@app.get(
-    "/get_skills_items/{id_site}",
-    # responses={
-    #     404: {"model": Site_Details, "description": "The item was not found"}
-    # }
-)
-async def get_skills_items(id_site: int) -> list[Skills_Data]:
-    if data_skills:
-        return data_skills
-    return JSONResponse(status_code=404, content={"message": "Item not found"})
+# # CREATE
 
-# Update a Skill
-@app.post("/update_skill/{id_site}")
-def update_skill(id_site: int, body: Skill_Details | dict = dict()):
-    return {}
+# # READ
+@skills_router.get("/all")
+async def all_skills(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Category_Data]:
+    skills = await database_manager_service.all('skills')
+    return skills
 
-# Add a Skill
-# api/items/[x]?skill=[y]
-@app.put("/add_skills_item/{id_site}")
-def add_skills_item(id_site: int, skill_data: Skill_Details):
-    return {}
+@skills_router.get('/read/{id_skills}')
+async def one_skill(id_skills: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+    skill = await database_manager_service.post(id_skills, 'skills')
+    return skill
 
-# Fetch Categories of Skills
-@app.get("/get_skills_categories/{id_site}")
-async def get_skills_categories(id_site: int) -> list[Skills_Category_Data]:
-    if data_skills_tags:
-        return data_skills_tags
-    return JSONResponse(status_code=404, content={"message": "Item not found"})
+# # UPDATE
 
-# Update a Category of Skills
-@app.post("/update_skills_category/{id_site}")
-def update_skills_category(id_site: int, skill_category_data: Skill_Category_Details):
-    return {}
+# # DELETE
 
-# Add a Category of Skills
-@app.put("/add_skills_category/{id_site}")
-def add_skills_category(id_site: int, skill_category_data: Skill_Category_Details):
-    return {}
+# CATEGORIES #
+
+# # CREATE
+
+# # READ
+@skills_router.get("/all_categories")
+async def all_skills_categories(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Category_Data]:
+    categories = await database_manager_service.all('skills_categories')
+    return categories
+
+@skills_router.get('/read_categories/{id_skills_categories}')
+async def one_skill_category(id_categories: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+    category = await database_manager_service.post(id_categories, 'skills_categories')
+    return category
+
+# # UPDATE
+
+# # DELETE

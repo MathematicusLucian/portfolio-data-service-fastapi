@@ -1,4 +1,6 @@
-from typing import Union
-import json
+from fastapi import APIRouter
 
-# @app.get("/")
+base_router = APIRouter(prefix='/base')
+
+@base_router.get("/")
+async def base(): return {}

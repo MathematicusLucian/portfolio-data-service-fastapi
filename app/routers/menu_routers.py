@@ -1,25 +1,33 @@
 from typing import Union
 import json
+from bson import ObjectId
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+
+from app.models.database_models import OID
+from app.models.blog_models import Blog_Post_Category_Data, Blog_Post_Data
+from app.services.database_manager import DatabaseManagerInterface, get_database
+
+menu_router = APIRouter(prefix='/menu')
 
 #--------#
 # Menus #
 #--------#
 
-# Fetch the Main Menu Items
-@app.get(
-    "/get_menu_main/{id_site}"
-)
-async def get_main_menu(id_site: int): # -> list[Menu_Data]:
-    if data_main_menu: # replace with call to database
-        return data_main_menu
-    return JSONResponse(status_code=404, content={"message": "Item not found"})
+# # CREATE
 
-# Fetch the Links Menu Items
-@app.get(
-    "/get_menu_links/{id_site}"
-)
-async def get_menu_links(id_site: int): # -> list[Menu_Data]:
-    if data_menu_links:
-        return data_menu_links
-    return JSONResponse(status_code=404, content={"message": "Item not found"})
+# # READ
+@menu_router.get("/all")
+async def all(id_menu: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Category_Data]:
+    menu = await database_manager_service.all('menus', id_menu)
+    return menu
+
+@menu_router.get('/read/{id_post}')
+async def one(id_menu: str, id_categories: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+    menu_item = await database_manager_service.post(id_categories, 'menus', id_menu)
+    return menu_item
+
+# # UPDATE
+
+# # DELETE
