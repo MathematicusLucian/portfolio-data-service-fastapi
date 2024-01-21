@@ -2,10 +2,10 @@ from typing import Optional
 from bson import ObjectId
 from pydantic.main import BaseModel
 
-from app.models.database import OID, BaseDBModel
+from app.models.database_models import OID, BaseDBModel
 
 class Blog_Request_One(BaseDBModel):
-    id: any #ObjectId
+    id: ObjectId
 
 class Blog_Post_Data(BaseDBModel):
     id: str # Optional[OID]

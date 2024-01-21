@@ -2,7 +2,7 @@ from typing import Union
 import json
 from fastapi.responses import JSONResponse
 
-from app.models.projects import Projects_Category_Data, Projects_Data
+from app.models.projects_models import Projects_Category_Data, Projects_Data
 
 #----------#
 # Projects #

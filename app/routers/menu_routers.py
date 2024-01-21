@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
     "/get_menu_main/{id_site}"
 )
 async def get_main_menu(id_site: int): # -> list[Menu_Data]:
-    if data_main_menu:
+    if data_main_menu: # replace with call to database
         return data_main_menu
     return JSONResponse(status_code=404, content={"message": "Item not found"})
 

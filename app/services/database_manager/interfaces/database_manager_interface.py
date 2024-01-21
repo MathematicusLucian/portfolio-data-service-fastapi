@@ -1,10 +1,10 @@
 from abc import abstractmethod
 from typing import List
 
-from app.models.blog import Blog_Post_Data
-from app.models.database import OID
+from app.models.blog_models import Blog_Post_Data
+from app.models.database_models import OID
 
-class DatabaseManager(object):
+class DatabaseManagerService(object):
     @property
     def client(self):
         raise NotImplementedError
@@ -22,7 +22,7 @@ class DatabaseManager(object):
         pass
     
     @abstractmethod
-    async def create_post(self, post: Blog_Post_Data):
+    async def create_post(self, post: str): #Blog_Post_Data):
         pass
 
     @abstractmethod

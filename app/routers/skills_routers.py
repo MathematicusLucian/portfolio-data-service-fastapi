@@ -2,7 +2,7 @@ from typing import Union
 import json
 from fastapi.responses import JSONResponse
 
-from app.models.skills import Skill_Category_Details, Skill_Details, Skills_Category_Data, Skills_Data
+from app.models.skills_models import Skill_Category_Details, Skill_Details, Skills_Category_Data, Skills_Data
 
 #--------#
 # Skills #

@@ -1,16 +1,16 @@
 import logging
 from typing import List
-from app.models.database import OID
-from app.utils.common_helper import validate_object_id
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 # from decouple import config
 
-from app.db.interfaces.database_manager import DatabaseManager
-from app.models.blog import Blog_Post_Data, Blog_Request_One
+from app.models.database_models import OID
+from app.utils.common_helper import validate_object_id
+from app.services.database_manager.interfaces.database_manager_interface import DatabaseManagerService
+from app.models.blog_models import Blog_Post_Data, Blog_Request_One
 # from app.utils.common_helper import validate_data_retrieved, format_data_to_list
 
-class MongoManager(DatabaseManager):
+class MongoManager(DatabaseManagerService):
     client: AsyncIOMotorClient = None
     db: AsyncIOMotorDatabase = None
 
@@ -30,7 +30,7 @@ class MongoManager(DatabaseManager):
     async def close_database_connection(self):
         self.client.close()
 
-    async def create_post(self, post: Blog_Post_Data):
+    async def create_post(self, post: str): #Blog_Post_Data):
         await self.database.posts.insert_one(post.dict(exclude={'id'}))
 
     async def all_posts(self): # -> list[Blog_Post_Data]:

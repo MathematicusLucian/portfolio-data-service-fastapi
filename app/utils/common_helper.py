@@ -2,7 +2,7 @@ import logging
 from fastapi import HTTPException
 from typing import List
 
-from app.models.blog import Blog_Post_Data
+from app.models.blog_models import Blog_Post_Data
 
 def validate_object_id(object_id) -> any:
     if object_id is None:
