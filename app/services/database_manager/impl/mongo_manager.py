@@ -47,7 +47,7 @@ class MongoManager(DatabaseManagerInterface):
             data_item_list = {}
             for k, data_field in data_item.items():
                 data_item_list[removeFirstHyphen(k)] = str(data_field)
-            data_list.append(data_item_list) #data_item) 
+            data_list.append(data_item_list)
         return data_list
 
     async def one_item(self, item_id: str, collection_name: str, auxilliary_id: int | None = None) -> Blog_Request_One: #e.g.: 65a8290874d04214abc99c6c
@@ -57,7 +57,10 @@ class MongoManager(DatabaseManagerInterface):
             if(auxilliary_id != None): q={'_id': ObjectId(item_id), "id_parent": auxilliary_id}
             item_q = await self.database[collection_name].find_one(q)
             if item_q:
-                return Blog_Post_Data(**item_q, id=str(item_q['_id']))
+                data_item_list = {}
+                for k, data_field in item_q.items():
+                    data_item_list[removeFirstHyphen(k)] = str(data_field)
+                return data_item_list
 
     # async def update_item(self, item_id: OID, item: Blog_Post_Data):
     #     if item_id & item:

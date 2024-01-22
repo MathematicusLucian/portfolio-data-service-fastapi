@@ -71,9 +71,9 @@ async def get_blog_categories(database_manager_service: DatabaseManagerInterface
     categories = await database_manager_service.all('blog_categories')
     return categories
 
-@blog_router.get('/read_categories/{id_post}')
+@blog_router.get('/read_categories/{id_categories}')
 async def one_blog_category(id_categories: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    post = await database_manager_service.post(id_categories, 'blog_categories')
+    post = await database_manager_service.one_item(id_categories, 'blog_categories')
     return post
 
 # # UPDATE
