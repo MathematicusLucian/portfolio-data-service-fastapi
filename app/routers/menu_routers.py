@@ -24,8 +24,8 @@ async def all(id_menu: str, database_manager_service: DatabaseManagerInterface =
     return menu
 
 @menu_router.get('/read/{id_post}')
-async def one(id_menu: str, id_categories: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    menu_item = await database_manager_service.post(id_categories, 'menus', id_menu)
+async def one(id_menu: str, id_menu_item: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+    menu_item = await database_manager_service.one_item(id_menu, 'menus', id_menu_item)
     return menu_item
 
 # # UPDATE

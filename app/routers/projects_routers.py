@@ -32,7 +32,7 @@ async def all_projects(database_manager_service: DatabaseManagerInterface = Depe
 
 @projects_router.get('/read/{id_projects}')
 async def one_projects(id_projects: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    projects_categories = await database_manager_service.post(id_projects, 'projects')
+    projects_categories = await database_manager_service.one_item(id_projects, 'projects')
     return projects_categories
 
 # # UPDATE
@@ -44,14 +44,14 @@ async def one_projects(id_projects: str, database_manager_service: DatabaseManag
 # # CREATE
 
 # # READ
-@projects_router.get("/all_projects")
-async def all_skills_categories(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Projects_Category_Data]:
+@projects_router.get("/all_categories")
+async def all_categories(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Projects_Category_Data]:
     categories = await database_manager_service.all('projects_categories')
     return categories
 
-@projects_router.get('/read_projects/{id_skills_categories}')
-async def one_skill_category(id_projects: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    category = await database_manager_service.post(id_projects, 'projects_categories')
+@projects_router.get('/read_categories/{id_skills_categories}')
+async def one_category(id_projects: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+    category = await database_manager_service.one_item(id_projects, 'projects_categories')
     return category
 
 # # UPDATE

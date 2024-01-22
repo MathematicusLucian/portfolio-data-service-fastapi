@@ -1,3 +1,4 @@
+import logging
 from typing import Union
 import json
 from bson import ObjectId
@@ -42,7 +43,11 @@ blog_router = APIRouter(prefix='/blog')
 @blog_router.get('/all')
 async def all_posts(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Data]:
     posts = await database_manager_service.all('blog')
-    print(posts)
+    return posts
+
+@blog_router.get("/of_category/{id_category}")
+async def all_post_of_category(id_category: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Projects_Data]:
+    posts = await database_manager_service.all('blog', id_category)
     return posts
 
 @blog_router.get('/read/{id_post}')

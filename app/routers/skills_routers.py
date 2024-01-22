@@ -33,7 +33,7 @@ async def all_skills(database_manager_service: DatabaseManagerInterface = Depend
 
 @skills_router.get('/read/{id_skills}')
 async def one_skill(id_skills: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    skill = await database_manager_service.post(id_skills, 'skills')
+    skill = await database_manager_service.one_item(id_skills, 'skills')
     return skill
 
 # # UPDATE
@@ -52,7 +52,7 @@ async def all_skills_categories(database_manager_service: DatabaseManagerInterfa
 
 @skills_router.get('/read_categories/{id_skills_categories}')
 async def one_skill_category(id_categories: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    category = await database_manager_service.post(id_categories, 'skills_categories')
+    category = await database_manager_service.one_item(id_categories, 'skills_categories')
     return category
 
 # # UPDATE
