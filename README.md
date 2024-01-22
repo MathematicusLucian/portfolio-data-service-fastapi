@@ -14,45 +14,62 @@
 
 ## Launch FastAPI Microservice
 
-**Docker**
-
-``sudo docker-compose up``
-
 **Local Machine**
 
 ``uvicorn app.main:app --reload --host 0.0.0.0 --port 80``
 
-**Set Python in Path**
+**AWS Lambda**
+
+Inside your terminal from the root directory of your project, CD into the Python Site Packages folder.
+
+``cd .env/lib/python3.12/site-packages``
+
+Then zip up the contents into the root of the project.
+
+``zip -r9 path/to/root/of/project/function.zip``
+
+CD back into the root of the project.
+
+``cd path/to/root/of/project``
+
+Next we need to add the contents of the app folder so let's add that into the zip file.
+
+``zip -g ./function.zip -r app``
+
+**Docker**
+
+``sudo docker-compose up``
+
+**Create EXE file**
+
+``renderhtml.exe .\input.md``
+
+## Set Python in Path
 
 - ``python3 -m site --user-base``
 - ``nano ~/.bash_profile``
 - ``xport PATH="/path/to/python:$PATH"``
 - Ctrl + X -> y -> Enter
 
-**Create EXE file**
-
-``renderhtml.exe .\input.md``
-
-<!-- Then, do ``pip install`` -->
-
 ## virtualenv (has move features than venv)
 
 **Install**
 
 - ``pip install virtualenv``
-- ``python3> -m venv portfolio-env``
+- ``virtualenv -p python3.12 .env``
+<!-- - ``python3> -m venv env`` -->
 
 ### Launch
 
-env_setup.bash
+``env_setup.bash``
 
 **Launch: Linux**
 
-````source portfolio_env/bin/activate``
+````source ./env/bin/activate``
 
 **Launch: Windows**
 
-``cd portfolio-env``
+``cd env`` (Works on Mac too)
 
 ``Scripts\activate``
 
@@ -62,11 +79,11 @@ env_setup.bash
 
 **Deactivate virtualenv**
 
-``(portfolio_env)$ deactivate``
+``(env)$ deactivate``
 
 ## VSCode Setup
 
-Cmd/Ctrl-Shift-P -> Select Interpreter -> portfolio-service -> env
+Cmd/Ctrl-Shift-P -> Select Interpreter -> ``portfolio-service`` -> ``env``
 
 ## Dependencies 
 

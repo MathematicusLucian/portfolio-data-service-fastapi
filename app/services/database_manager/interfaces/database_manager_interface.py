@@ -38,7 +38,7 @@ class DatabaseManagerInterface(object):
         pass
 
     @abstractmethod
-    async def one_item(self, item_id: str, collection_name: str, auxilliary_id: int | None = None) -> Blog_Post_Data:
+    async def one_item(self, identifier_type: str, item_id: str, collection_name: str, auxilliary_id: int | None = None) -> Blog_Post_Data:
         pass
 
     # @abstractmethod

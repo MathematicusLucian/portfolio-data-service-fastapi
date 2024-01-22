@@ -57,11 +57,11 @@ class MongoManager(DatabaseManagerInterface):
             data_list.append(data_item_list)
         return data_list
 
-    async def one_item(self, item_id: str, collection_name: str, auxilliary_id: int | None = None) -> Blog_Request_One: #e.g.: 65a8290874d04214abc99c6c
+    async def one_item(self, identifier_type: str, item_id: str, collection_name: str, auxilliary_id: int | None = None) -> Blog_Request_One: #e.g.: 65a8290874d04214abc99c6c
         if item_id:
             item_id = validate_object_id(item_id)
             q={'_id': ObjectId(item_id)}
-            if(auxilliary_id != None): q={'_id': ObjectId(item_id), "id_parent": auxilliary_id}
+            if(auxilliary_id is not None): q={'_id': ObjectId(item_id), "id_"+identifier_type: auxilliary_id}
             item_q = await self.database[collection_name].find_one(q)
             if item_q:
                 data_item_list = {}
