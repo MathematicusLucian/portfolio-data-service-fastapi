@@ -47,7 +47,13 @@ class MongoManager(DatabaseManagerInterface):
         async for data_item in data_items:
             data_item_list = {}
             for k, data_field in data_item.items():
-                data_item_list[removeFirstHyphen(k)] = str(data_field)
+                if k=="id_parent":
+                    formattedDataItem = []
+                    for parentIDItem in data_field:
+                        formattedDataItem.append(str(parentIDItem))
+                else:
+                    formattedDataItem = str(data_field)
+                data_item_list[removeFirstHyphen(k)] = formattedDataItem
             data_list.append(data_item_list)
         return data_list
 

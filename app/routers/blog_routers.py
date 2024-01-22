@@ -16,6 +16,8 @@ from app.services.database_manager import DatabaseManagerInterface, get_database
 #     content: str | None = None
 
 blog_router = APIRouter(prefix='/blog')
+collection_name = 'blog'
+category_collection_name = 'blog_categories'
 
 #-----------#
 # BlogPosts #
@@ -42,17 +44,17 @@ blog_router = APIRouter(prefix='/blog')
 # READ
 @blog_router.get('/all')
 async def all_posts(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Data]:
-    posts = await database_manager_service.all('blog')
+    posts = await database_manager_service.all(collection_name)
     return posts
 
 @blog_router.get("/of_category/{id_category}")
 async def all_post_of_category(id_category: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Projects_Data]:
-    posts = await database_manager_service.all('blog', id_category)
+    posts = await database_manager_service.all(collection_name, id_category)
     return posts
 
 @blog_router.get('/read/{id_post}')
 async def one_post(id_post: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    post = await database_manager_service.one_item(id_post, 'blog')
+    post = await database_manager_service.one_item(id_post, collection_name)
     return post
 
 # # UPDATE
@@ -73,12 +75,12 @@ async def one_post(id_post: str, database_manager_service: DatabaseManagerInterf
 # # READ
 @blog_router.get("/all_categories")
 async def get_blog_categories(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Category_Data]:
-    categories = await database_manager_service.all('blog_categories')
+    categories = await database_manager_service.all(category_collection_name)
     return categories
 
 @blog_router.get('/read_categories/{id_categories}')
 async def one_blog_category(id_categories: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    post = await database_manager_service.one_item(id_categories, 'blog_categories')
+    post = await database_manager_service.one_item(id_categories, category_collection_name)
     return post
 
 # # UPDATE

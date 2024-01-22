@@ -11,6 +11,8 @@ from app.models.skills_models import Skill_Category_Details, Skill_Details, Skil
 from app.services.database_manager import DatabaseManagerInterface, get_database
 
 skills_router = APIRouter(prefix='/skills')
+collection_name = 'skills'
+category_collection_name = 'skills_categories'
 
 #--------#
 # Skills #
@@ -28,12 +30,17 @@ skills_router = APIRouter(prefix='/skills')
 # # READ
 @skills_router.get("/all")
 async def all_skills(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Category_Data]:
-    skills = await database_manager_service.all('skills')
+    skills = await database_manager_service.all(collection_name)
+    return skills
+
+@skills_router.get("/of_category/{id_category}")
+async def all_skills_of_category(id_category: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Category_Data]:
+    skills = await database_manager_service.all(collection_name, id_category)
     return skills
 
 @skills_router.get('/read/{id_skills}')
 async def one_skill(id_skills: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    skill = await database_manager_service.one_item(id_skills, 'skills')
+    skill = await database_manager_service.one_item(id_skills, collection_name)
     return skill
 
 # # UPDATE
@@ -47,12 +54,12 @@ async def one_skill(id_skills: str, database_manager_service: DatabaseManagerInt
 # # READ
 @skills_router.get("/all_categories")
 async def all_skills_categories(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Category_Data]:
-    categories = await database_manager_service.all('skills_categories')
+    categories = await database_manager_service.all(category_collection_name)
     return categories
 
 @skills_router.get('/read_categories/{id_skills_categories}')
 async def one_skill_category(id_categories: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    category = await database_manager_service.one_item(id_categories, 'skills_categories')
+    category = await database_manager_service.one_item(id_categories, category_collection_name)
     return category
 
 # # UPDATE

@@ -10,6 +10,8 @@ from app.models.projects_models import Projects_Category_Data, Projects_Data
 from app.services.database_manager import DatabaseManagerInterface, get_database
 
 projects_router = APIRouter(prefix='/projects')
+collection_name = 'projects'
+category_collection_name = 'projects_categories'
 
 #----------#
 # Projects #
@@ -27,12 +29,17 @@ projects_router = APIRouter(prefix='/projects')
 # # READ
 @projects_router.get("/all")
 async def all_projects(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Projects_Data]:
-    projects = await database_manager_service.all('projects')
+    projects = await database_manager_service.all(collection_name)
+    return projects
+
+@projects_router.get("/of_category/{id_category}")
+async def all_projects_of_category(id_category: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Projects_Data]:
+    projects = await database_manager_service.all(collection_name, id_category)
     return projects
 
 @projects_router.get('/read/{id_projects}')
 async def one_projects(id_projects: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    projects_categories = await database_manager_service.one_item(id_projects, 'projects')
+    projects_categories = await database_manager_service.one_item(id_projects, collection_name)
     return projects_categories
 
 # # UPDATE
@@ -46,12 +53,12 @@ async def one_projects(id_projects: str, database_manager_service: DatabaseManag
 # # READ
 @projects_router.get("/all_categories")
 async def all_categories(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Projects_Category_Data]:
-    categories = await database_manager_service.all('projects_categories')
+    categories = await database_manager_service.all(category_collection_name)
     return categories
 
 @projects_router.get('/read_categories/{id_skills_categories}')
 async def one_category(id_projects: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    category = await database_manager_service.one_item(id_projects, 'projects_categories')
+    category = await database_manager_service.one_item(id_projects, category_collection_name)
     return category
 
 # # UPDATE
