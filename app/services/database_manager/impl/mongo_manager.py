@@ -37,7 +37,9 @@ class MongoManager(DatabaseManagerInterface):
         data_list = [] 
         q=""
         if(auxilliary_id != None): q={"id_parent": auxilliary_id}
+        logging.info(q)
         data_items = self.database[collection_name].find(q)  
+        logging.info(data_items)
         async for data_item in data_items:
             data_item["id"] = str(data_item["_id"])
             del[data_item["_id"]]

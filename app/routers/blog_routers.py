@@ -41,12 +41,13 @@ blog_router = APIRouter(prefix='/blog')
 # READ
 @blog_router.get('/all')
 async def all_posts(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Data]:
-    posts = await database_manager_service.all('posts')
+    posts = await database_manager_service.all('blog')
+    print(posts)
     return posts
 
 @blog_router.get('/read/{id_post}')
 async def one_post(id_post: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    post = await database_manager_service.one_item(id_post, 'posts')
+    post = await database_manager_service.one_item(id_post, 'blog')
     return post
 
 # # UPDATE
