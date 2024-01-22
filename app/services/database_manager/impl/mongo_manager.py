@@ -47,7 +47,7 @@ class MongoManager(DatabaseManagerInterface):
         async for data_item in data_items:
             data_item_list = {}
             for k, data_field in data_item.items():
-                if k=="id_parent":
+                if isinstance(data_field, list):
                     formattedDataItem = []
                     for parentIDItem in data_field:
                         formattedDataItem.append(str(parentIDItem))
