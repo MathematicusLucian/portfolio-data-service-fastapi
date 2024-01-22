@@ -37,14 +37,12 @@ class MongoManager(DatabaseManagerInterface):
         data_list = [] 
         q=""
         if(auxilliary_id != None): q={"id_parent": auxilliary_id}
-        logging.info(q)
         data_items = self.database[collection_name].find(q)  
-        logging.info(data_items)
         async for data_item in data_items:
             data_item["id"] = str(data_item["_id"])
             del[data_item["_id"]]
             data_list.append(data_item) 
-            return data_list
+        return data_list
 
     async def one_item(self, item_id: str, collection_name: str, auxilliary_id: int | None = None) -> Blog_Request_One: #e.g.: 65a8290874d04214abc99c6c
         if item_id:
