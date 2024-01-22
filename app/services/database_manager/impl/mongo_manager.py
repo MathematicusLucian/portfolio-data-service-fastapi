@@ -42,28 +42,39 @@ class MongoManager(DatabaseManagerInterface):
     async def all(self, collection_name: str, auxilliary_id: int | None = None): # -> List[Blog_Post_Category_Data]:
         data_list = [] 
         q=""
-        if(auxilliary_id != None): q={"id_parent": ObjectId(str(auxilliary_id))}
-        data_items = self.database[collection_name].find(q)  
-        async for data_item in data_items:
-            data_item_list = {}
-            for k, data_field in data_item.items():
-                if isinstance(data_field, list):
-                    formattedDataItem = []
-                    for parentIDItem in data_field:
-                        formattedDataItem.append(str(parentIDItem))
-                else:
-                    formattedDataItem = str(data_field)
-                data_item_list[removeFirstHyphen(k)] = formattedDataItem
-            data_list.append(data_item_list)
-        return data_list
+        try:
+            if(auxilliary_id is not None): 
+                q={"id_parent": ObjectId(str(auxilliary_id))}
+            data_items = self.database[collection_name].find(q)  
+        except Exception as e:
+            logging.info(f"Log in unsuccessful: {e}")
+            return []
+        else:
+            async for data_item in data_items:
+                data_item_list = {}
+                for k, data_field in data_item.items():
+                    if isinstance(data_field, list):
+                        formattedDataItem = []
+                        for parentIDItem in data_field:
+                            formattedDataItem.append(str(parentIDItem))
+                    else:
+                        formattedDataItem = str(data_field)
+                    data_item_list[removeFirstHyphen(k)] = formattedDataItem
+                data_list.append(data_item_list)
+            return data_list
 
     async def one_item(self, identifier_type: str, item_id: str, collection_name: str, auxilliary_id: int | None = None) -> Blog_Request_One: #e.g.: 65a8290874d04214abc99c6c
-        if item_id:
-            item_id = validate_object_id(item_id)
-            q={'_id': ObjectId(item_id)}
-            if(auxilliary_id is not None): q={'_id': ObjectId(item_id), "id_"+identifier_type: auxilliary_id}
-            item_q = await self.database[collection_name].find_one(q)
-            if item_q:
+        try:
+            if item_id is not None:
+                item_id = validate_object_id(item_id)
+                q={'_id': ObjectId(item_id)}
+                if(auxilliary_id is not None): q={'_id': ObjectId(item_id), "id_"+identifier_type: auxilliary_id}
+                item_q = await self.database[collection_name].find_one(q)
+        except Exception as e:
+            logging.info(f"Log in unsuccessful: {e}")
+            return []
+        else:
+            if item_q is not None:
                 data_item_list = {}
                 for k, data_field in item_q.items():
                     data_item_list[removeFirstHyphen(k)] = str(data_field)
