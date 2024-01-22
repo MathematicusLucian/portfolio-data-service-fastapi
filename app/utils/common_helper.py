@@ -4,6 +4,12 @@ from typing import List
 
 from app.models.blog_models import Blog_Post_Data
 
+def removeFirstHyphen(s: str):
+    if (s[0] == "_"):
+        return s[1:]
+    else: 
+        return(s)
+
 def validate_object_id(object_id) -> any:
     if object_id is None:
         logging.info("Status code: 404. ID is invalid")

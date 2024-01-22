@@ -68,12 +68,12 @@ async def one_post(id_post: str, database_manager_service: DatabaseManagerInterf
 # # READ
 @blog_router.get("/all_categories")
 async def get_blog_categories(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Category_Data]:
-    categories = await database_manager_service.all('blog_catergories')
+    categories = await database_manager_service.all('blog_categories')
     return categories
 
 @blog_router.get('/read_categories/{id_post}')
 async def one_blog_category(id_categories: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-    post = await database_manager_service.post(id_categories, 'blog_catergories')
+    post = await database_manager_service.post(id_categories, 'blog_categories')
     return post
 
 # # UPDATE

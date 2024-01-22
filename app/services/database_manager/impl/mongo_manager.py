@@ -4,11 +4,16 @@ from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 # from decouple import config
 
+from app.utils.common_helper import removeFirstHyphen, validate_object_id
 from app.models.database_models import OID
-from app.utils.common_helper import validate_object_id
 from app.services.database_manager.interfaces.database_manager_interface import DatabaseManagerInterface
 from app.models.blog_models import Blog_Post_Data, Blog_Request_One
 # from app.utils.common_helper import validate_data_retrieved, format_data_to_list
+
+#------------------------------------
+# Mongo service:
+# Implements DatabaseManagerInterface
+#------------------------------------
 
 class MongoManager(DatabaseManagerInterface):
     client: AsyncIOMotorClient = None
@@ -39,9 +44,10 @@ class MongoManager(DatabaseManagerInterface):
         if(auxilliary_id != None): q={"id_parent": auxilliary_id}
         data_items = self.database[collection_name].find(q)  
         async for data_item in data_items:
-            data_item["id"] = str(data_item["_id"])
-            del[data_item["_id"]]
-            data_list.append(data_item) 
+            data_item_list = {}
+            for k, data_field in data_item.items():
+                data_item_list[removeFirstHyphen(k)] = str(data_field)
+            data_list.append(data_item_list) #data_item) 
         return data_list
 
     async def one_item(self, item_id: str, collection_name: str, auxilliary_id: int | None = None) -> Blog_Request_One: #e.g.: 65a8290874d04214abc99c6c
