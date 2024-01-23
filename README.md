@@ -12,6 +12,10 @@
 - Dependency manager: [Poetry](https://python-poetry.org) 
 - Docker container 
 
+## Swagger
+
+At ``/docs``
+
 ## Unit Tests (Pytest)
 
 ``python -m unittest tests/sum_test.py``
