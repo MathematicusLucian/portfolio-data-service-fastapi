@@ -2,31 +2,32 @@
 
 >*A lightweight **Python: 3.12** microservice utilising FastAPI, Asyncio, Pydantic, and Motor to fetch data from a MongoDB instance to populate my portfolio Angular website.*
 
-**Features**
+## Features
 
-- [FastAPI](http://fastapi.tiangolo.com), and **ObjectID**
+- [FastAPI](http://fastapi.tiangolo.com) (as alternate to Flask), and **ObjectID**
 - **Dependency Injection** features in the database implementation
-- Use of Env file to store secrets (parsed by Pydantic)  
+- Use of Env file to store secrets (parsed by **Pydantic**)  
 - [MongoDB](https://www.mongodb.com) 
-- Asynchronous programming (**async**), i.e. Asyncio, for Mongo DB calls
+- Asynchronous programming (**async**), i.e. **Asyncio**, for **Mongo DB** calls
 - Dependency manager: [Poetry](https://python-poetry.org) 
-- Docker container 
-
-## Swagger
-
-At ``/docs``
+- **Docker** container deployed to **AWS Lambda**
+- **Swagger**: At ``/docs``
 
 ## Unit Tests (Pytest)
+
+![automate automate automate](./assets/sb.webp)
 
 ``python -m unittest tests/sum_test.py``
 
 ## Launch FastAPI Microservice
 
-**Local Machine**
+### Local Machine
 
 ``uvicorn app.main:app --reload --host 0.0.0.0 --port 80``
 
-**AWS Lambda**
+### AWS Lambda
+
+For Lambda functions that use the Python runtime, a dependency can be any Python package or module. When you deploy your function using a .zip archive, you can either add these dependencies to your .zip file with your function code or use a Lambda layer. A layer is a separate .zip file that can contain additional code and other content. 
 
 Inside your terminal from the root directory of your project, CD into the Python Site Packages folder.
 
@@ -48,11 +49,11 @@ Next we need to add the contents of the app folder so let's add that into the zi
 
 ``sudo docker-compose up``
 
-**Create EXE file**
+### Create EXE file
 
 ``renderhtml.exe .\input.md``
 
-## Set Python in Path
+### Set Python in Path
 
 - ``python3 -m site --user-base``
 - ``nano ~/.bash_profile``
@@ -61,24 +62,24 @@ Next we need to add the contents of the app folder so let's add that into the zi
 
 ## virtualenv (has move features than venv)
 
-**Install**
+**Install the VirtualEnv**
 
-- ``pip install virtualenv``
+``pip install virtualenv``
 
-**Create the virtualenv**
+**Create the VirtualEnv**
 
-- ``virtualenv -p python3.12 env``
+``virtualenv -p python3.12 env``
 <!-- - ``python3> -m venv env`` -->
 
-**Activate the virtualenv**
+**Activate the VirtualEnv**
 
 ``env_setup.bash``
 
-### Activate: Linux
+***Activate on Linux***
 
-````source /env/bin/activate``
+``source /env/bin/activate``
 
-### Activate: Windows
+***Activate on Windows***
 
 ``cd env`` (Works on Mac too)
 
@@ -90,21 +91,29 @@ While in the virtualenv, and from the ``src`` folder/directory:
 
 ``pip install -r requirements.txt``
 
-**Check virtualenv working / which dependencies are installed**
+>*Nb. Scripts to be installed in envs are not be written with an expectation that the environment is to be activated, and thus, shebang lines contain the absolute paths to their environment’s interpreters.*
+
+**Check VirtualEnv working / which dependencies are installed**
 
 ``pip list``
 
-**Deactivate the virtualenv**
+**Deactivate the VirtualEnv**
 
 ``(env)$ deactivate``
 
-## VSCode Setup
+**VSCode VirtualEnv Setup**
 
-Cmd/Ctrl-Shift-P -> Select Interpreter -> ``portfolio-service`` -> ``env``
+Cmd/Ctrl-Shift-P 
+
+-> Select Interpreter 
+
+-> ``portfolio-service`` 
+
+-> ``env``
 
 ## Dependencies 
 
-**Generate requirements file**
+**Generate Requirements.txt file**
 
 ``pip freeze > requirements.txt``
 
@@ -112,7 +121,7 @@ Cmd/Ctrl-Shift-P -> Select Interpreter -> ``portfolio-service`` -> ``env``
 
 ``(portfolio_env)$ pip install -r requirements.txt``
 
-**PipeEnv**
+### PipeEnv
 
 ``pip3 install --user pipenv``
 
@@ -124,19 +133,17 @@ Cmd/Ctrl-Shift-P -> Select Interpreter -> ``portfolio-service`` -> ``env``
 
 To open .env files
 
-**Poetry**
+### Poetry
 
 - ``poetry init``
 - ``poetry install --no-root`` (To avoid installing development dependencies, use --no-dev argument)
 
-**PyProject (alternate to SetupTools)**
+### PyProject (alternate to SetupTools)
 
-### Installing base depdendences
+**Installing base depdendences**
 
 ``pip install -e .`` (e=editable: reference rather than copy)
 
-### Installing dev dependencies
+**Installing dev dependencies**
 
 ``pip install -e .[dev]``
-
->*Nb. Scripts to be installed in envs are not be written with an expectation that the environment to be activated, and thus, shebang lines contain the absolute paths to their environment’s interpreters.*
