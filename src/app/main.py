@@ -15,8 +15,6 @@ config = get_config()
 app = FastAPI(title=config.app_name)
 app.include_router(api_router, prefix="/v1")
 
-handler = Mangum(app)
-
 #Upgrade to lifespan event handler
 @app.on_event("startup")
 async def startup():
@@ -30,3 +28,5 @@ async def shutdown():
 
 # if __name__ == "__main__":
 #     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+handler = Mangum(app=app)
