@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "portfolio-data-service"
+version = "0.1.0"
+description = "Serves projects, blog, etc. data for personal portfolio"
+authors = ["MathematicusLucian"]
+license = "None"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.109.0"
+pydantic = "^2.5.3"
+virtualenv = "^20.25.0"
+
+[tool.poetry.group.dev.dependencies]
+fastapi = "^0.109.0"
+pydantic = "^2.5.3"
+virtualenv = "^20.25.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
