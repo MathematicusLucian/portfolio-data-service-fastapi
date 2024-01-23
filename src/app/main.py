@@ -17,14 +17,16 @@ app.include_router(api_router, prefix="/v1")
 
 handler = Mangum(app)
 
+#Upgrade to lifespan event handler
 @app.on_event("startup")
 async def startup():
     await database_manager_service.connect_to_database(path=config.database_path, database=config.database_name)
  
+#Upgrade to lifespan event handler
 @app.on_event("shutdown")
 async def shutdown():
     logging.info("Shutting down")
     await database_manager_service.close_database_connection()
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+# if __name__ == "__main__":
+#     uvicorn.run(app, host="0.0.0.0", port=8000)

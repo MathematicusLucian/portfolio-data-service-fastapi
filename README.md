@@ -12,6 +12,10 @@
 - Dependency manager: [Poetry](https://python-poetry.org) 
 - Docker container 
 
+## Unit Tests (Pytest)
+
+``python -m unittest tests/sum_test.py``
+
 ## Launch FastAPI Microservice
 
 **Local Machine**
@@ -56,28 +60,37 @@ Next we need to add the contents of the app folder so let's add that into the zi
 **Install**
 
 - ``pip install virtualenv``
-- ``virtualenv -p python3.12 .env``
+
+**Create the virtualenv**
+
+- ``virtualenv -p python3.12 env``
 <!-- - ``python3> -m venv env`` -->
 
-### Launch
+**Activate the virtualenv**
 
 ``env_setup.bash``
 
-**Launch: Linux**
+### Activate: Linux
 
-````source ./env/bin/activate``
+````source /env/bin/activate``
 
-**Launch: Windows**
+### Activate: Windows
 
 ``cd env`` (Works on Mac too)
 
 ``Scripts\activate``
 
+**Install dependencies**
+
+While in the virtualenv, and from the ``src`` folder/directory:
+
+``pip install -r requirements.txt``
+
 **Check virtualenv working / which dependencies are installed**
 
 ``pip list``
 
-**Deactivate virtualenv**
+**Deactivate the virtualenv**
 
 ``(env)$ deactivate``
 

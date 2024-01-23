@@ -48,7 +48,7 @@ async def get_body(request: Request):
     return await request.body()
 
 # # CREATE
-@blog_router.post("/create", tags=["blog"])
+@blog_router.post("/create") #, tags=["blog"])
 async def foo_body(title: Any = Body(...), 
              content: Any = Body(...), 
              database_manager_service: DatabaseManagerInterface = Depends(get_database)
