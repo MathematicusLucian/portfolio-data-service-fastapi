@@ -32,14 +32,15 @@ category_collection_name = 'blog_categories'
 # so that the block can call them
 
 # CREATE
-# @blog_router.put("/create") #/{id_site}") #, tags=["blog"])
-# # async def create_post(id_site: int, blog_post: Union[str, None] = None, db: DatabaseManager = Depends(get_database)): #-> list[Blog_Post_Data]:
+@blog_router.put("/create") #/{id_site}") #, tags=["blog"])
+# async def create_post(id_site: int, blog_post: Union[str, None] = None, db: DatabaseManager = Depends(get_database)): #-> list[Blog_Post_Data]:
 # async def create_post(item: DataItem, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+async def create_post(item: dict, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
 #     # sample_id = ObjectId
 #     # blog_post = {"id":{sample_id},"title":"abc title","body":"abc body"}
-#     # post = await database_manager_service.create_post(id_site, blog_post)
-#     # return post
-#     return item
+    post = await database_manager_service.create_post(item)
+    return post
+    # return item
 
 # READ
 @blog_router.get('/all')

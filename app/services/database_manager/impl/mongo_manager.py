@@ -35,8 +35,8 @@ class MongoManager(DatabaseManagerInterface):
     async def close_database_connection(self):
         self.client.close()
 
-    # async def create_item(self): #Blog_Post_Data):
-    #     await self.database.items.insert_one(item.dict(exclude={'id'}))
+    async def create_item(self, item: dict): #Blog_Post_Data):
+        await self.database.items.insert_one(item.dict(exclude={'id'}))
 
     # aux: of_category/65add85a5012fb980dc1ec29
     async def all(self, collection_name: str, auxilliary_id: int | None = None): # -> List[Blog_Post_Category_Data]:

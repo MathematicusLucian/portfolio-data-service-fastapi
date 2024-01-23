@@ -22,8 +22,8 @@ class DatabaseManagerInterface(object):
         pass
     
     # @abstractmethod
-    # async def create_item(self, item: str): #Blog_Post_Data):
-    #     pass
+    async def create_item(self, item: dict): #Blog_Post_Data):
+        pass
 
     # @abstractmethod
     # async def all(self, collection_name: str): # -> List[Blog_Post_Data]:
