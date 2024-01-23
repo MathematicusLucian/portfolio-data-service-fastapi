@@ -1,5 +1,6 @@
 import logging
-from typing import List
+from fastapi import Request
+from typing import List, Any
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 # from decouple import config
@@ -35,8 +36,22 @@ class MongoManager(DatabaseManagerInterface):
     async def close_database_connection(self):
         self.client.close()
 
-    async def create_item(self, item: dict): #Blog_Post_Data):
-        await self.database.items.insert_one(item.dict(exclude={'id'}))
+    async def create_item(self, collection_name: str, body_data: Any):
+        try:
+            body_data = body_data.dict()
+            await self.database[collection_name].insert_one(body_data)
+        except Exception as e:
+            logging.info(e)
+        return {"message: Success": body_data}
+
+    # async def create_item(self, collection_name: str, body: dict): #Blog_Post_Data):
+    #     # for k, v in body.items():
+    #         # if k=="id":
+    #         #     del body[k]
+    #     # body["_id"]=ObjectId
+    #     await self.database.items.insert_one(body)
+    #     # await self.database[collection_name].insert_one(body.dict(exclude={'id'}))
+    #     return body
 
     # aux: of_category/65add85a5012fb980dc1ec29
     async def all(self, collection_name: str, auxilliary_id: int | None = None): # -> List[Blog_Post_Category_Data]:

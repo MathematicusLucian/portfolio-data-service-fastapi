@@ -1,9 +1,9 @@
 import logging
-from typing import Union
+from fastapi import APIRouter, Depends, Body, Request
+from fastapi.responses import JSONResponse
+from typing import Union, Any
 import json
 from bson import ObjectId
-from fastapi import APIRouter, Depends
-from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from app.models.database_models import OID
@@ -31,16 +31,45 @@ category_collection_name = 'blog_categories'
 # It will also include the other Skills endpoints (as strings in the JSON response), 
 # so that the block can call them
 
-# CREATE
-@blog_router.put("/create") #/{id_site}") #, tags=["blog"])
-# async def create_post(id_site: int, blog_post: Union[str, None] = None, db: DatabaseManager = Depends(get_database)): #-> list[Blog_Post_Data]:
-# async def create_post(item: DataItem, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-async def create_post(item: dict, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-#     # sample_id = ObjectId
-#     # blog_post = {"id":{sample_id},"title":"abc title","body":"abc body"}
-    post = await database_manager_service.create_post(item)
+
+# class NastyMetaClass(type):
+#     pass
+
+# class Foo(metaclass=NastyMetaClass):
+#     @classmethod
+#     def __get_validators__(cls):
+#         yield lambda value: True
+
+class Data_Item(BaseModel):
+    name: str | None = None
+    content: str | None = None
+
+async def get_body(request: Request):
+    return await request.body()
+
+# # CREATE
+@blog_router.post("/create", tags=["blog"])
+async def foo_body(title: Any = Body(...), 
+             content: Any = Body(...), 
+             database_manager_service: DatabaseManagerInterface = Depends(get_database)
+             ):
+    # x = ObjectId()
+    body_dict = { 
+        # "_id": x,
+        "title": title, 
+        "content": content 
+    }
+    post = await database_manager_service.create_item(collection_name, body_dict)
     return post
-    # return item
+
+# @blog_router.post("/create", tags=["blog"])
+# # async def create_post(body: bytes = Depends(get_body), database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+# async def create_post(
+#     item: Any):
+#     # database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+#     # post = await database_manager_service.create_item(body)
+#     # results = item #{"item": item}
+#     return item
 
 # READ
 @blog_router.get('/all')

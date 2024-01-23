@@ -1,5 +1,6 @@
+from fastapi import Request
 from abc import abstractmethod
-from typing import List
+from typing import List, Any
 
 from app.models.blog_models import Blog_Post_Data
 from app.models.database_models import OID
@@ -22,7 +23,7 @@ class DatabaseManagerInterface(object):
         pass
     
     # @abstractmethod
-    async def create_item(self, item: dict): #Blog_Post_Data):
+    async def create_item(self, body: Any): #Blog_Post_Data):
         pass
 
     # @abstractmethod
