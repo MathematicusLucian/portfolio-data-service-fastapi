@@ -1,10 +1,13 @@
 from fastapi.testclient import TestClient
-from src.app.main import app
+import unittest
 
+# Modules used by the app
 import logging
 import uvicorn
 from fastapi import FastAPI
 from mangum import Mangum
+
+from src.app.main import app
 
 client = TestClient(app)
 
