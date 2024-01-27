@@ -29,6 +29,10 @@
 
 For Lambda functions that use the Python runtime, a dependency can be any Python package or module. When you deploy your function using a .zip archive, you can either add these dependencies to your .zip file with your function code or use a Lambda layer. A layer is a separate .zip file that can contain additional code and other content. 
 
+**Project Approach**
+
+`` sam local start-api -t template.yaml --skip-pull-image -p 8080 ``
+
 Inside your terminal from the root directory of your project, CD into the Python Site Packages folder.
 
 ``cd .env/lib/python3.12/site-packages``
@@ -37,13 +41,24 @@ Then zip up the contents into the root of the project.
 
 ``zip -r9 path/to/root/of/project/function.zip``
 
+``zip -g ./function.zip -r app``
+
 CD back into the root of the project.
 
 ``cd path/to/root/of/project``
 
+To install dependencies for the Lambda:
+
+``pip install --target ./package -r src/requirements.txt``
+
 Next we need to add the contents of the app folder so let's add that into the zip file.
 
-``zip -g ./function.zip -r app``
+``zip -r ../deployment_package.zip .``
+
+Add the lambda_function.py file to the root of the .zip file
+
+``cd ..``
+``zip my_deployment_package.zip lambda_function.py``
 
 **Docker**
 
