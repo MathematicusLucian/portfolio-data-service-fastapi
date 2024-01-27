@@ -1,16 +1,14 @@
 .DS_Store
-*.DS_Store
+**/.DS_Store
 .aws
 *.aws
 .vscode
 *.vscode
 cdk
 cdk.out
-awscii-2.15.14
-awscii-2.15.14/
-/awscii-2.15.14/
-awscii-bundle
-/awscii-bundle/
+awscli-2.15.14/
+awscli-bundle/
+portfolio_write/
 .aws-sam
 
 # Created by https://www.gitignore.io/api/osx,linux,python,windows,pycharm,visualstudiocode
