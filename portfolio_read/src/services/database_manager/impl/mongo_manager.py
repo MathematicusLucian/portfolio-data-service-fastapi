@@ -21,17 +21,22 @@ class MongoManager(DatabaseManagerInterface):
     db: AsyncIOMotorDatabase = None
 
     async def connect_to_database(self, path: str, database: str):
+        logger = logging.getLogger("uvicorn")
+        logger.setLevel(logging.DEBUG)
         self.client = AsyncIOMotorClient(
             path,
             maxPoolSize=10,
             minPoolSize=10
         )
         try:
-            await self.client.admin.command('ping') 
-            logging.info("Connection successful.")
+            await self.client.admin.command('ping')
+            logger.info("Connection successful.")
         except Exception as e:
-            logging.info(f"Log in unsuccessful: {e}")
-        self.database = self.client[database] 
+            logger.info(f"Connection unsuccessful: {e}")
+            return [{"Database connection":"unsuccesful"}]
+        else:
+            self.database = self.client[database]
+            return self.database
 
     async def close_database_connection(self):
         self.client.close()
@@ -42,7 +47,8 @@ class MongoManager(DatabaseManagerInterface):
             await self.database[collection_name].insert_one(body_data)
         except Exception as e:
             logging.info(e)
-        return {"message: Success": body_data}
+        else:
+            return {"message: Success": body_data}
 
     # async def create_item(self, collection_name: str, body: dict): #Blog_Post_Data):
     #     # for k, v in body.items():
@@ -62,8 +68,8 @@ class MongoManager(DatabaseManagerInterface):
                 q={"id_parent": ObjectId(str(auxilliary_id))}
             data_items = self.database[collection_name].find(q)  
         except Exception as e:
-            logging.info(f"Log in unsuccessful: {e}")
-            return []
+            logging.info(f"Data fetch unsuccessful: {e}")
+            return [{"Data fetch":"unsuccesful"}]
         else:
             async for data_item in data_items:
                 data_item_list = {}
@@ -87,7 +93,7 @@ class MongoManager(DatabaseManagerInterface):
                 item_q = await self.database[collection_name].find_one(q)
         except Exception as e:
             logging.info(f"Log in unsuccessful: {e}")
-            return []
+            return [{"login/fetch":"unsuccesful"}]
         else:
             if item_q is not None:
                 data_item_list = {}

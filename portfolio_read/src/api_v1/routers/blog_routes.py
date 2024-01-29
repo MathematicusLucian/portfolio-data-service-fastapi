@@ -9,6 +9,9 @@ from pydantic import BaseModel
 from models.database_models import OID
 from models.blog_models import Blog_Post_Category_Data, Blog_Post_Data
 from services.database_manager import DatabaseManagerInterface, get_database
+from config.config import load_config
+
+config = load_config()
 
 # class DataItem(BaseModel):
 #     id: int | None = None
@@ -74,7 +77,8 @@ category_collection_name = 'blog_categories'
 # READ
 @blog_router.get('/all')
 async def all_posts(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Data]:
-    posts = await database_manager_service.all(collection_name)
+    # posts = await database_manager_service.all(collection_name)
+    posts = await database_manager_service.connect_to_database(path=config.PORTFOLIO_DATABASE_PATH, database=config.PORTFOLIO_DATABASE_NAME)
     return posts
 
 @blog_router.get("/of_category/{id_category}")

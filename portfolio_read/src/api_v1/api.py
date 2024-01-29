@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from portfolio_read.src.api_v1.routers import skills_routes
-from portfolio_read.src.api_v1.routers import blog_routes, menu_routes, projects_routes
+from api_v1.routers import skills_routes
+from api_v1.routers import blog_routes, menu_routes, projects_routes
 
 router = APIRouter()
 router.include_router(blog_routes.blog_router, prefix='/blog', tags=["Blog"])
