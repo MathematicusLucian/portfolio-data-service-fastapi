@@ -2,7 +2,7 @@ from typing import Optional
 from bson import ObjectId
 from pydantic.main import BaseModel
 
-from app.models.database_models import OID, BaseDBModel
+from models.database_models import OID, BaseDBModel
 
 class Site_Details(BaseDBModel):
     id: Optional[OID]

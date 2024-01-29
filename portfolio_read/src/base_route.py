@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
 base_router = APIRouter()
-base_router.mount("/static", StaticFiles(directory="static"), name="static")
+# base_router.mount("/static", StaticFiles(directory="static"), name="static")
 
 @base_router.get("/")
 # Presents Angular app

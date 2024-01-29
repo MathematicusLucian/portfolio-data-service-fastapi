@@ -8,22 +8,21 @@
 - **Dependency Injection** features in the database implementation
 - Use of Env file to store secrets (parsed by **Pydantic**)  
 - [MongoDB](https://www.mongodb.com) 
+- AWS secrets for secure database credentials
 - Asynchronous programming (**async**), i.e. **Asyncio**, for **Mongo DB** calls
 - Dependency manager: [Poetry](https://python-poetry.org) 
 - **Docker** container deployed to **AWS Lambda**
 - **Swagger**: At ``/docs``
 
-## Unit Tests (Pytest)
-
-![automate automate automate](./assets/sb.webp)
-
-``python -m unittest tests/sum_test.py``
-
 ## Launch FastAPI Microservice
 
-### Local Machine
+### Local Machine - Uvicorn
 
 ``uvicorn app.main:app --reload --host 0.0.0.0 --port 80``
+
+### Local Machine - SAM
+
+``sam build --user-container && sam local start-api -n .env.json --skip-pull-image -p 8080``
 
 ### AWS Lambda
 
@@ -74,6 +73,22 @@ Add the lambda_function.py file to the root of the .zip file
 - ``nano ~/.bash_profile``
 - ``xport PATH="/path/to/python:$PATH"``
 - Ctrl + X -> y -> Enter
+
+## Secrets (Credentials Management)
+
+To import a .env when building locally with SAM Api (start-api):
+
+``sam build --user-container && sam local start-api -n .env.json --skip-pull-image -p 8080``
+
+With respect to production, a .env, or .secrets, file will not be visible to the AWS Lambda, unless we upload it to the AWS repo. The credentials would be visible in the AWS UI Console once the lambda function is deployed, and the env variables baked into the code at deployment. There is a risk someone will accidentally commit a decrypted .secrets file. Moreover, if more than one repo relies on this database, there would be duplication of this file. Also, there is the issue of where does one then store the password used to decrypt the secrets, i.e. this does not really solve the issue. Likewise, a SSM encrypted env variable via serverless.yml is not ideal. 
+
+Therefore, I am adapting this to use KMS for prod.
+
+## Unit Tests (Pytest)
+
+![automate automate automate](./assets/sb.webp)
+
+``python -m unittest tests/sum_test.py``
 
 ## virtualenv (has move features than venv)
 

@@ -1,4 +1,5 @@
 requests
+netifaces==0.11.0
 alembic==1.13.1
 amqp==5.2.0
 annotated-types==0.6.0
@@ -52,7 +53,6 @@ MarkupSafe==2.1.4
 motor==3.3.2
 msgpack==1.0.7
 netaddr==0.10.1
-netifaces==0.11.0
 networkx==3.2.1
 openstacksdk==2.1.0
 os-client-config==2.1.0
@@ -134,7 +134,7 @@ testscenarios==0.5.0
 testtools==2.7.1
 typing_extensions==4.9.0
 tzdata==2023.4
-urllib3==2.1.0
+urllib3<2 
 uvicorn==0.25.0
 vine==5.1.0
 virtualenv==20.25.0

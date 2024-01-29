@@ -10,6 +10,7 @@ awscli-2.15.14/
 awscli-bundle/
 portfolio_write/
 .aws-sam
+.env.json
 
 # Created by https://www.gitignore.io/api/osx,linux,python,windows,pycharm,visualstudiocode
 

@@ -1,14 +1,14 @@
-# import logging
-from fastapi import APIRouter #, Depends, Body, Request
-# from fastapi.responses import JSONResponse
-# from typing import Union, Any
-# import json
-# from bson import ObjectId
-# from pydantic import BaseModel
+import logging
+from fastapi import APIRouter, Depends, Body, Request
+from fastapi.responses import JSONResponse
+from typing import Union, Any
+import json
+from bson import ObjectId
+from pydantic import BaseModel
 
-# from src.models.database_models import OID
-# from src.models.blog_models import Blog_Post_Category_Data, Blog_Post_Data
-# from src.services.database_manager import DatabaseManagerInterface, get_database
+from models.database_models import OID
+from models.blog_models import Blog_Post_Category_Data, Blog_Post_Data
+from services.database_manager import DatabaseManagerInterface, get_database
 
 # class DataItem(BaseModel):
 #     id: int | None = None
@@ -71,23 +71,21 @@ category_collection_name = 'blog_categories'
 #     # results = item #{"item": item}
 #     return item
 
-# # READ
-# @blog_router.get('/all')
-# async def all_posts(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Data]:
-#     posts = await database_manager_service.all(collection_name)
-#     return posts
+# READ
+@blog_router.get('/all')
+async def all_posts(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Data]:
+    posts = await database_manager_service.all(collection_name)
+    return posts
 
 @blog_router.get("/of_category/{id_category}")
-async def read_item_var(id_category: str):
-    return {"item_id": id_category}
-# async def all_post_of_category(id_category: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Projects_Data]:
-#     posts = await database_manager_service.all(collection_name, id_category)
-#     return posts
+async def all_post_of_category(id_category: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Projects_Data]:
+    posts = await database_manager_service.all(collection_name, id_category)
+    return posts
 
-# @blog_router.get('/read/{identifier_type}/{id_post}')
-# async def one_post(identifier_type: str, id_post: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-#     post = await database_manager_service.one_item(identifier_type, id_post, collection_name)
-#     return post
+@blog_router.get('/read/{identifier_type}/{id_post}')
+async def one_post(identifier_type: str, id_post: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+    post = await database_manager_service.one_item(identifier_type, id_post, collection_name)
+    return post
 
 # # UPDATE
 # @blog_router.put("/update/{id_site}")
@@ -104,16 +102,16 @@ async def read_item_var(id_category: str):
 
 # # CREATE
 
-# # # READ
-# @blog_router.get("/all_categories")
-# async def get_blog_categories(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Category_Data]:
-#     categories = await database_manager_service.all(category_collection_name)
-#     return categories
+# # READ
+@blog_router.get("/all_categories")
+async def get_blog_categories(database_manager_service: DatabaseManagerInterface = Depends(get_database)): #list[Blog_Post_Category_Data]:
+    categories = await database_manager_service.all(category_collection_name)
+    return categories
 
-# @blog_router.get('/read_categories/{id_categories}')
-# async def one_blog_category(id_categories: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
-#     post = await database_manager_service.one_item(id_categories, category_collection_name)
-#     return post
+@blog_router.get('/read_categories/{id_categories}')
+async def one_blog_category(id_categories: str, database_manager_service: DatabaseManagerInterface = Depends(get_database)):
+    post = await database_manager_service.one_item(id_categories, category_collection_name)
+    return post
 
 # # UPDATE
 

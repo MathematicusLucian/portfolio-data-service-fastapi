@@ -7,6 +7,11 @@ Globals:
     Timeout: 15
     MemorySize: 128
     Architectures: x86_64
+    Tracing: Active # https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html
+    Environment:
+      Variables:
+        PORTFOLIO_DATABASE_PATH: !Ref PORTFOLIO_DATABASE_PATH
+        PORTFOLIO_DATABASE_NAME: !Ref PORTFOLIO_DATABASE_NAME
 
 Resources:
   PortfolioReadFunction:
@@ -17,12 +22,16 @@ Resources:
         - x86_64
       CodeUri: src
       Handler: app.handler
-      Runtime: python3.9
+      Runtime: python3.12
       Events:
         Api:
           Type: HttpApi
           Properties:
             ApiId: !Ref Api
+          # Cors:
+          #   AllowMethods: "'*'"
+          #   AllowHeaders: "'*'"
+          #   AllowOrigin: "'*'"
   Api:
     Type: AWS::Serverless::HttpApi
 
@@ -31,89 +40,3 @@ Outputs:
     Description: URL of your API
     Value:
       Fn::Sub: 'https://${Api}.execute-api.${AWS::Region}.${AWS::URLSuffix}/'
-
-# AWSTemplateFormatVersion: '2010-09-09'
-# Transform: AWS::Serverless-2016-10-31
-# Description: portfolio-read FastAPI on Lambda
-
-# # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
-# # Globals:
-# #   Function:
-# #     Timeout: 15
-# #     MemorySize: 128
-# #     Architectures: x86_64
-#     # Environment:
-#     #   Variables:
-#     #     DB_HOST: process.env.DB_HOST
-#     #     DB_USER: process.env.DB_USER
-#     #     DB_PASSWORD: process.env.DB_PASSWORD
-#     #     DB_DATABASE: process.env.DB_DATABASE
-#     #     DB_PORT: process.env.DB_PORT
-#   # Api:
-#   #   Cors:
-#   #     AllowMethods: "'*'"
-#   #     AllowHeaders: "'*'"
-#   #     AllowOrigin: "'*'"
-
-# Resources:
-#   Function:
-#     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-#     Properties:
-#       FunctionName: 'PortfolioRead'
-#       PackageType: Image
-#       CodeUri: . #root folder
-#       # CodeUri: src
-#       Handler: src/main.lambda_handler # the handler method is provided as lambda_handler available in the main.py file
-#       # Handler: app.handler
-#       Runtime: python3.10
-#       Architectures:
-#         - x86_64
-#       Events:
-#         Api:
-#           Type: HttpApi
-#           Properties:
-#             ApiId: !Ref Api
-#         # PortfolioReadBase:
-#         #   Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-#         #   Properties:
-#         #     Path: /
-#         #     Method: get
-#         # Swagger:
-#         #   Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-#         #   Properties:
-#         #     Path: /docs
-#         #     Method: get
-#         # Openapi:
-#         #   Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-#         #   Properties:
-#         #     Path: /openapi.json
-#         #     Method: get
-#         # AllBlogPosts:
-#         #   Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-#         #   Properties:
-#         #     Path: /blog/all
-#         #     Method: get
-#     Api:
-#       Type: AWS::Serverless::HttpApi
-#     Metadata:
-#       Dockerfile: Dockerfile
-#       DockerContext: ./portfolio-read
-#       DockerTag: python3.12-v1
-
-# Outputs:
-#   ApiUrl:
-#     Description: URL of your API
-#     Value:
-#       Fn::Sub: 'https://${Api}.execute-api.${AWS::Region}.${AWS::URLSuffix}/'
-#   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-#   # Find out more about other implicit resources you can reference within SAM
-#   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-#   # PortfolioReadApi:
-#   #   Description: "API Gateway endpoint URL for Prod stage for Portfolio Read function"
-#   #   Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/portfolio-read/"
-#   # PortfolioReadFunction:
-#   #   Description: "Portfolio Read Function ARN"
-#   #   Value: !GetAtt PortfolioReadFunction.Arn
-#   # PortfolioReadFunctionIamRole:
-#   #   Description: "Implicit IAM Role created for Portfolio Read function"
-#   #   Value: !GetAtt PortfolioReadFunctionRole.Arn
