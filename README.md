@@ -24,6 +24,10 @@
 
 ``sam build --user-container && sam local start-api -n .env.json --skip-pull-image -p 8080``
 
+Debugging:
+
+``sam build --user-container && sam local start-api -n .env.json --skip-pull-image -p 5858``
+
 ### AWS Lambda
 
 For Lambda functions that use the Python runtime, a dependency can be any Python package or module. When you deploy your function using a .zip archive, you can either add these dependencies to your .zip file with your function code or use a Lambda layer. A layer is a separate .zip file that can contain additional code and other content. 
