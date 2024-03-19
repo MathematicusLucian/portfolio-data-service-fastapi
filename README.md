@@ -1,6 +1,6 @@
 # Portfolio Data Service    
 
->*A lightweight **Python: 3.12** microservice utilising FastAPI, Asyncio, Pydantic, and Motor to fetch data from a MongoDB instance to populate my portfolio Angular website.*
+>*A lightweight **Python: 3.12** microservice deployed to AWS. Employed FastAPI, Asyncio, Pydantic, and Motor to fetch data from a MongoDB instance to populate my portfolio Angular website.*
 
 ## Features
 
